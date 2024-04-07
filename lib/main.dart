@@ -4,8 +4,15 @@ import 'package:notes_keeper/features/notes/screens/add_note_screen.dart';
 import 'package:notes_keeper/features/notes/screens/notes_list_screen.dart';
 import 'package:notes_keeper/routes/router.dart';
 import 'package:notes_keeper/shared/utils/colors.dart';
+import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 
-void main() {
+import 'features/notes/services/notes_service.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final prefs = await StreamingSharedPreferences.instance;
+  final noteService = NotesService(prefs);
+  
   runApp(NotesApp());
 }
 
