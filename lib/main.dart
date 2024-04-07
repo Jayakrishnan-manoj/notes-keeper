@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:notes_keeper/features/notes/screens/add_note_screen.dart';
 import 'package:notes_keeper/features/notes/screens/notes_list_screen.dart';
+import 'package:notes_keeper/routes/router.dart';
 import 'package:notes_keeper/shared/utils/colors.dart';
 
 void main() {
@@ -26,9 +27,11 @@ class _NotesAppState extends State<NotesApp> {
     );
   }
 
+  final _appRouter = AppRouter();
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: "Notes Keeper",
       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: 'Merriweather').copyWith(
@@ -45,7 +48,7 @@ class _NotesAppState extends State<NotesApp> {
           ),
         ),
       ),
-      home: AddNoteScreen(),
+      routerConfig: _appRouter.config(),
     );
   }
 }

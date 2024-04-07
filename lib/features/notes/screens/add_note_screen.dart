@@ -1,5 +1,7 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 
+@RoutePage()
 class AddNoteScreen extends StatefulWidget {
   const AddNoteScreen({super.key});
 
@@ -8,7 +10,7 @@ class AddNoteScreen extends StatefulWidget {
 }
 
 class _AddNoteScreenState extends State<AddNoteScreen> {
-  TextEditingController _noteController = TextEditingController();
+  final TextEditingController _noteController = TextEditingController();
 
   @override
   void dispose() {

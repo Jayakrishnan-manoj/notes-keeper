@@ -1,6 +1,9 @@
+import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:notes_keeper/features/notes/widgets/notes_tile.dart';
 
+@RoutePage()
 class NotesListScreen extends StatelessWidget {
   const NotesListScreen({super.key});
 
@@ -20,7 +23,9 @@ class NotesListScreen extends StatelessWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
+        onPressed: () {
+          context.router.pushNamed('/add');
+        },
         label: const Row(
           children: [
             Icon(Icons.add),
