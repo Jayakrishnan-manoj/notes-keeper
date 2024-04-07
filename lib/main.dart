@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:notes_keeper/shared/utils/colors.dart';
 
-void main(){
+void main() {
   runApp(NotesApp());
 }
 
@@ -11,6 +12,10 @@ class NotesApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: "Notes Keeper",
+      theme: ThemeData(fontFamily: 'Merriweather').copyWith(
+        primaryColor: kPrimaryColor,
+        scaffoldBackgroundColor: kBackgroundColor,
+      ),
     );
   }
 }
