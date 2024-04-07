@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:notes_keeper/features/notes/screens/add_note_screen.dart';
 import 'package:notes_keeper/features/notes/screens/notes_list_screen.dart';
 import 'package:notes_keeper/shared/utils/colors.dart';
 
@@ -44,7 +45,7 @@ class _NotesAppState extends State<NotesApp> {
           ),
         ),
       ),
-      home: NotesListScreen(),
+      home: AddNoteScreen(),
     );
   }
 }
