@@ -1,8 +1,6 @@
 import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
-import 'package:notes_keeper/features/notes/models/note_model.dart';
 import 'package:notes_keeper/features/notes/widgets/notes_tile.dart';
 import 'package:notes_keeper/shared/DI/locator.dart';
 import 'package:provider/provider.dart';
@@ -13,9 +11,11 @@ import '../../../shared/providers/notes_provider.dart';
 class NotesListScreen extends StatelessWidget {
   const NotesListScreen({super.key});
 
+  static const navigateToAddNoteButtonKey = Key('navigateToAddNote');
+
   @override
   Widget build(BuildContext context) {
-    final notesProvider = Provider.of<NotesProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Notes Keeper"),
@@ -30,6 +30,7 @@ class NotesListScreen extends StatelessWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
+        key: navigateToAddNoteButtonKey,
         onPressed: () {
           context.router.pushNamed('/add');
         },
@@ -59,14 +60,16 @@ class NotesListScreen extends StatelessWidget {
               );
             }
             // Use ListView.builder to display notes
-            return ListView.builder(  
+            return ListView.builder(
               itemCount: notes.length,
               itemBuilder: (context, index) {
                 final note = notes[index];
                 return Card(
                   elevation: 5,
                   shadowColor: Colors.transparent,
-                  child: NotesTile(note: note),
+                  child: NotesTile(
+                    note: note,
+                  ),
                 );
               },
             );

@@ -26,6 +26,7 @@ class NotesProvider extends ChangeNotifier {
   Future<void> addNote(String content) async {
     try {
       await _service.addNote(content);
+      notifyListeners();
       await _loadNotes(); // Refresh the list of notes after adding
     } catch (e) {
       // Handle error

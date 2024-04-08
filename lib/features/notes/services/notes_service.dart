@@ -22,6 +22,7 @@ class NoteService {
   // Adds a new note
   Future<void> addNote(String content) async {
     final notes = await getNotes().first;
+    print(notes);
     final newNote = NoteModel.generate(content);
     notes.add(newNote);
     await _saveNotes(notes);
@@ -29,6 +30,7 @@ class NoteService {
 
   Future<void> editNote(String noteId, String content) async {
     final notes = await getNotes().first;
+    print(notes);
     final noteIndex = notes.indexWhere((note) => note.id==noteId);
     if(noteIndex != -1){
       notes[noteIndex] = notes[noteIndex].copyWith(content: content);
@@ -43,8 +45,6 @@ class NoteService {
     await _saveNotes(notes);
   }
 
-  // Helper function to save notes to SharedPreferences
-  // Helper function to save notes to SharedPreferences
   Future<void> _saveNotes(List<NoteModel> notes) async {
     final noteJsonList = notes.map((note) => note.toJson()).toList();
     final noteStringList =
