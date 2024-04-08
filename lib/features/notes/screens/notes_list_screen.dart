@@ -42,13 +42,12 @@ class NotesListScreen extends StatelessWidget {
         ),
         child: Consumer<NotesProvider>(
           builder: (context, provider, child) {
-            final notes = provider.notes; // Get the list of notes
+            final notes = provider.notes; 
             if (notes.isEmpty) {
               return const Center(
                 child: Text("No notes added"),
               );
             }
-            // Use ListView.builder to display notes
             return ListView.builder(
               itemCount: notes.length,
               itemBuilder: (context, index) {

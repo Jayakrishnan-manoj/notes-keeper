@@ -75,8 +75,12 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
               onPressed: () {
                 try {
                   locator<NotesProvider>()
-                      .editNote(widget.note.id!, _editNoteController.text);
-                  showSnackbar(context, "Note Edited!", Colors.green);
+                      .editNote(widget.note.id!, _editNoteController.text)
+                      .whenComplete(
+                        () =>
+                            showSnackbar(context, "Note Edited!", Colors.green),
+                      );
+
                   Navigator.of(context).pop();
                 } catch (e) {
                   showSnackbar(context, "Editing Failed", Colors.red);

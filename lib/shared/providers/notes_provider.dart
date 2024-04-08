@@ -19,7 +19,7 @@ class NotesProvider extends ChangeNotifier {
       notifyListeners();
     } catch (e) {
       // Handle error
-      print('Error loading notes: $e');
+      throw e.toString();
     }
   }
 
@@ -30,17 +30,17 @@ class NotesProvider extends ChangeNotifier {
       await _loadNotes(); // Refresh the list of notes after adding
     } catch (e) {
       // Handle error
-      print('Error adding note: $e');
+      throw e.toString();
     }
   }
 
-  Future<void> editNote(String noteId,String content) async {
+  Future<void> editNote(String noteId, String content) async {
     try {
       await _service.editNote(noteId, content);
       await _loadNotes(); // Refresh the list of notes after editing
     } catch (e) {
       // Handle error
-      print('Error editing note: $e');
+      throw e.toString();
     }
   }
 
@@ -50,7 +50,7 @@ class NotesProvider extends ChangeNotifier {
       await _loadNotes(); // Refresh the list of notes after removing
     } catch (e) {
       // Handle error
-      print('Error removing note: $e');
+      throw e.toString();
     }
   }
 }

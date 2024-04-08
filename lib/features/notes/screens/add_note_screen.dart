@@ -67,8 +67,13 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
               ),
               onPressed: () {
                 try {
-                  locator<NotesProvider>().addNote(_noteController.text);
-                  showSnackbar(context, "Note Added!", Colors.green);
+                  locator<NotesProvider>()
+                      .addNote(_noteController.text)
+                      .whenComplete(
+                        () =>
+                            showSnackbar(context, "Note Added!", Colors.green),
+                      );
+
                   Navigator.of(context).pop();
                 } catch (e) {
                   showSnackbar(context, "Could not add Note", Colors.red);

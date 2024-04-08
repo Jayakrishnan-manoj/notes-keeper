@@ -5,6 +5,7 @@ import 'package:notes_keeper/routes/router.dart';
 import 'package:notes_keeper/shared/DI/locator.dart';
 import 'package:notes_keeper/shared/providers/notes_provider.dart';
 import 'package:notes_keeper/shared/utils/colors.dart';
+import 'package:notes_keeper/shared/utils/helpers.dart';
 
 class NotesTile extends StatelessWidget {
   final NoteModel note;
@@ -34,7 +35,14 @@ class NotesTile extends StatelessWidget {
           children: [
             IconButton(
               onPressed: () {
-                locator<NotesProvider>().removeNote(note.id.toString());
+                try {
+                  locator<NotesProvider>()
+                      .removeNote(note.id.toString())
+                      .whenComplete(() =>
+                          showSnackbar(context, "Note deleted", Colors.green));
+                } catch (e) {
+                  showSnackbar(context, "Could not delete note", Colors.red);
+                }
               },
               icon: const Icon(
                 Icons.delete,
