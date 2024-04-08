@@ -17,10 +17,25 @@ class NotesProvider extends ChangeNotifier{
     notifyListeners();
   }
 
+  Future<void> saveNotes(List<NoteModel> notes) async {
+    await _service.saveNoteList(notes);
+  }
+
+  Future<void> getNoteList() async {
+    _notes = await _service.getNoteList();
+    notifyListeners();
+  }
+
+  Future<void> deleteNotes(String id) async {
+    await _service.deleteNotes(id, _notes);
+    notifyListeners();
+  }
+
   Future<void> getNotes() async {
     _notes = await _service.getNotes(_notes);
     notifyListeners();
   }
+
 
 
 }
