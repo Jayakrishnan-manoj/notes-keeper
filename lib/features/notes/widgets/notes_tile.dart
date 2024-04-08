@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:notes_keeper/features/notes/models/note_model.dart';
 import 'package:notes_keeper/shared/utils/colors.dart';
 
 class NotesTile extends StatelessWidget {
-  const NotesTile({super.key});
+  final NoteModel note;
+  const NotesTile({super.key, required this.note});
 
   @override
   Widget build(BuildContext context) {
@@ -11,16 +13,17 @@ class NotesTile extends StatelessWidget {
       textColor: kPrimaryColor,
       collapsedIconColor: kTextColor,
       iconColor: kPrimaryColor,
-      title: Text(
-        "Notes Tile",
+      title:  Text(
+        note.content.toString(),
         style: const TextStyle(
           fontWeight: FontWeight.bold,
+          overflow: TextOverflow.ellipsis
         ),
       ),
       initiallyExpanded: true,
       children: [
         Text(
-          "This is a random note. This note is used to demonstrate the use of expansion tile",
+          note.content.toString(),
           textAlign: TextAlign.center,
           style: TextStyle(color: kTextColor),
         ),
@@ -29,14 +32,14 @@ class NotesTile extends StatelessWidget {
           children: [
             IconButton(
               onPressed: () {},
-              icon: Icon(
+              icon: const Icon(
                 Icons.delete,
                 color: Colors.red,
               ),
             ),
             IconButton(
               onPressed: () {},
-              icon: Icon(
+              icon: const Icon(
                 Icons.edit,
                 color: kPrimaryColor,
               ),
