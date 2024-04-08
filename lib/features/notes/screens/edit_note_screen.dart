@@ -1,6 +1,7 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:notes_keeper/features/notes/models/note_model.dart';
+import 'package:notes_keeper/shared/utils/helpers.dart';
 
 import '../../../shared/DI/locator.dart';
 import '../../../shared/providers/notes_provider.dart';
@@ -8,7 +9,7 @@ import '../../../shared/providers/notes_provider.dart';
 @RoutePage()
 class EditNoteScreen extends StatefulWidget {
   final NoteModel note;
-  const EditNoteScreen({super.key,@PathParam('note') required this.note});
+  const EditNoteScreen({super.key, @PathParam('note') required this.note});
 
   @override
   State<EditNoteScreen> createState() => _EditNoteScreenState();
@@ -29,7 +30,6 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
     super.dispose();
   }
 
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,7 +49,6 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
                     ),
                     borderRadius: BorderRadius.circular(15)),
                 child: TextField(
-                  
                   controller: _editNoteController,
                   maxLines: null,
                   decoration: const InputDecoration(
@@ -74,9 +73,14 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
                 ),
               ),
               onPressed: () {
-                locator<NotesProvider>()
-                    .editNote(widget.note.id!, _editNoteController.text);
-                Navigator.of(context).pop();
+                try {
+                  locator<NotesProvider>()
+                      .editNote(widget.note.id!, _editNoteController.text);
+                  showSnackbar(context, "Note Edited!", Colors.green);
+                  Navigator.of(context).pop();
+                } catch (e) {
+                  showSnackbar(context, "Editing Failed", Colors.red);
+                }
               },
               icon: const Icon(Icons.add),
               label: const Text("Save Note"),

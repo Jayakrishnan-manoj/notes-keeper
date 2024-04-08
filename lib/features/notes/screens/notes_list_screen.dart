@@ -2,7 +2,6 @@ import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:notes_keeper/features/notes/widgets/notes_tile.dart';
-import 'package:notes_keeper/shared/DI/locator.dart';
 import 'package:provider/provider.dart';
 
 import '../../../shared/providers/notes_provider.dart';
@@ -15,19 +14,9 @@ class NotesListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         title: const Text("Notes Keeper"),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.expand,
-              size: 30,
-            ),
-          ),
-        ],
       ),
       floatingActionButton: FloatingActionButton.extended(
         key: navigateToAddNoteButtonKey,

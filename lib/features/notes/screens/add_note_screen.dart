@@ -1,6 +1,7 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:notes_keeper/shared/providers/notes_provider.dart';
+import 'package:notes_keeper/shared/utils/helpers.dart';
 
 import '../../../shared/DI/locator.dart';
 
@@ -58,15 +59,20 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
             ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Theme.of(context).primaryColor,
-                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
-              
               ),
               onPressed: () {
-                notesProvider.addNote(_noteController.text);
-                Navigator.of(context).pop();
+                try {
+                  locator<NotesProvider>().addNote(_noteController.text);
+                  showSnackbar(context, "Note Added!", Colors.green);
+                  Navigator.of(context).pop();
+                } catch (e) {
+                  showSnackbar(context, "Could not add Note", Colors.red);
+                }
               },
               icon: const Icon(Icons.add),
               label: const Text("Add Note"),
