@@ -33,6 +33,16 @@ class NotesProvider extends ChangeNotifier {
     }
   }
 
+  Future<void> editNote(String noteId,String content) async {
+    try {
+      await _service.editNote(noteId, content);
+      await _loadNotes(); // Refresh the list of notes after editing
+    } catch (e) {
+      // Handle error
+      print('Error editing note: $e');
+    }
+  }
+
   Future<void> removeNote(String noteId) async {
     try {
       await _service.removeNote(noteId);

@@ -27,6 +27,15 @@ class NoteService {
     await _saveNotes(notes);
   }
 
+  Future<void> editNote(String noteId, String content) async {
+    final notes = await getNotes().first;
+    final noteIndex = notes.indexWhere((note) => note.id==noteId);
+    if(noteIndex != -1){
+      notes[noteIndex] = notes[noteIndex].copyWith(content: content);
+    }
+    await _saveNotes(notes);
+  }
+
   // Removes a note
   Future<void> removeNote(String noteId) async {
     final notes = await getNotes().first;

@@ -1,5 +1,7 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:notes_keeper/features/notes/models/note_model.dart';
+import 'package:notes_keeper/routes/router.dart';
 import 'package:notes_keeper/shared/DI/locator.dart';
 import 'package:notes_keeper/shared/providers/notes_provider.dart';
 import 'package:notes_keeper/shared/utils/colors.dart';
@@ -40,7 +42,9 @@ class NotesTile extends StatelessWidget {
               ),
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                context.router.push(EditNoteRoute(note: note));
+              },
               icon: const Icon(
                 Icons.edit,
                 color: kPrimaryColor,
