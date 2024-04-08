@@ -5,6 +5,6 @@ import '../../features/notes/services/notes_service.dart';
 
 final locator = GetIt.instance;
 
-void setup(NotesService service) {
+void setup(NoteService service) {
   locator.registerSingleton(NotesProvider(service));
 }

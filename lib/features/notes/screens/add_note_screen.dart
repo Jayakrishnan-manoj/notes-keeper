@@ -1,5 +1,8 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
+import 'package:notes_keeper/shared/providers/notes_provider.dart';
+
+import '../../../shared/DI/locator.dart';
 
 @RoutePage()
 class AddNoteScreen extends StatefulWidget {
@@ -20,6 +23,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final notesProvider = locator<NotesProvider>();
     return Scaffold(
       appBar: AppBar(
         title: const Text("New Note"),
@@ -60,7 +64,10 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                 ),
               
               ),
-              onPressed: () {},
+              onPressed: () {
+                notesProvider.addNote(_noteController.text);
+                Navigator.of(context).pop();
+              },
               icon: const Icon(Icons.add),
               label: const Text("Add Note"),
             )

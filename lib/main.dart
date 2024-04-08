@@ -12,7 +12,7 @@ import 'features/notes/services/notes_service.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final prefs = await StreamingSharedPreferences.instance;
-  final noteService = NotesService(prefs);
+  final noteService = NoteService(prefs);
   setup(noteService);
   runApp(NotesApp());
 }

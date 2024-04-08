@@ -1,6 +1,7 @@
 import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:notes_keeper/features/notes/models/note_model.dart';
 import 'package:notes_keeper/features/notes/widgets/notes_tile.dart';
 import 'package:notes_keeper/shared/DI/locator.dart';
@@ -14,7 +15,7 @@ class NotesListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final notesProvider = locator<NotesProvider>();
+    final notesProvider = Provider.of<NotesProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text("Notes Keeper"),
@@ -45,31 +46,33 @@ class NotesListScreen extends StatelessWidget {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 5,
-            vertical: 10,
-          ),
-          child: Consumer<NotesProvider>(
-            builder: (context, notesProvider, _) {
-              notesProvider.getNoteList();
-              final notes = notesProvider.notes;
-              if (notes.isEmpty) {
-                return const Center(
-                  child: Text("No notes available"),
-                );
-              }
-              return ListView.builder(
-                itemCount: 8,
-                itemBuilder: (context, index) {
-                  return Card(
-                    elevation: 5,
-                    shadowColor: Colors.transparent,
-                    child: NotesTile(note: notes[index]),
-                  );
-                },
+        padding: const EdgeInsets.symmetric(
+          horizontal: 5,
+          vertical: 10,
+        ),
+        child: Consumer<NotesProvider>(
+          builder: (context, provider, child) {
+            final notes = provider.notes; // Get the list of notes
+            if (notes.isEmpty) {
+              return const Center(
+                child: Text("No notes added"),
               );
-            },
-          )),
+            }
+            // Use ListView.builder to display notes
+            return ListView.builder(  
+              itemCount: notes.length,
+              itemBuilder: (context, index) {
+                final note = notes[index];
+                return Card(
+                  elevation: 5,
+                  shadowColor: Colors.transparent,
+                  child: NotesTile(note: note),
+                );
+              },
+            );
+          },
+        ),
+      ),
     );
   }
 }

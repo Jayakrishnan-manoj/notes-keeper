@@ -2,40 +2,44 @@ import 'package:flutter/material.dart';
 import 'package:notes_keeper/features/notes/models/note_model.dart';
 import 'package:notes_keeper/features/notes/services/notes_service.dart';
 
-class NotesProvider extends ChangeNotifier{
+class NotesProvider extends ChangeNotifier {
   List<NoteModel> _notes = [];
 
   List<NoteModel> get notes => _notes;
 
-  final NotesService _service;
-  NotesProvider(this._service);
+  final NoteService _service;
 
-  Future<void> addNote(String content) async{
-    final newNote = NoteModel.generate(content);
-    _notes.add(newNote);
-    await _service.saveNote(newNote);
-    notifyListeners();
+  NotesProvider(this._service) {
+    _loadNotes();
   }
 
-  Future<void> saveNotes(List<NoteModel> notes) async {
-    await _service.saveNoteList(notes);
+  Future<void> _loadNotes() async {
+    try {
+      _notes = await _service.getNotes().first;
+      notifyListeners();
+    } catch (e) {
+      // Handle error
+      print('Error loading notes: $e');
+    }
   }
 
-  Future<void> getNoteList() async {
-    _notes = await _service.getNoteList();
-    notifyListeners();
+  Future<void> addNote(String content) async {
+    try {
+      await _service.addNote(content);
+      await _loadNotes(); // Refresh the list of notes after adding
+    } catch (e) {
+      // Handle error
+      print('Error adding note: $e');
+    }
   }
 
-  Future<void> deleteNotes(String id) async {
-    await _service.deleteNotes(id, _notes);
-    notifyListeners();
+  Future<void> removeNote(String noteId) async {
+    try {
+      await _service.removeNote(noteId);
+      await _loadNotes(); // Refresh the list of notes after removing
+    } catch (e) {
+      // Handle error
+      print('Error removing note: $e');
+    }
   }
-
-  Future<void> getNotes() async {
-    _notes = await _service.getNotes(_notes);
-    notifyListeners();
-  }
-
-
-
 }

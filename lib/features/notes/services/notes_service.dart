@@ -5,44 +5,41 @@ import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 
 import '../models/note_model.dart';
 
-class NotesService {
-  final StreamingSharedPreferences _prefs;
+class NoteService {
+  static const _notesKey = 'notes';
+  final StreamingSharedPreferences _preferences;
 
-  NotesService(StreamingSharedPreferences prefs) : _prefs = prefs;
+  NoteService(this._preferences);
 
-  Future<void> saveNote(NoteModel note) async {
-    final noteContent = note.content;
-    await _prefs.setString(note.id!, noteContent);
+  // Retrieves all notes from SharedPreferences
+  Stream<List<NoteModel>> getNotes() {
+    final notesStream = _preferences.getStringList(_notesKey, defaultValue: []);
+    return notesStream.map((noteStrings) => noteStrings
+        .map((noteJson) => NoteModel.fromJson(json.decode(noteJson)))
+        .toList());
   }
 
-  Future<void> saveNoteList(List<NoteModel> notes) async {
-    // Convert list of notes to a list of JSON strings
-    final noteJsonList =
-        notes.map((note) => json.encode(note.toJson())).toList();
-    // Save list of JSON strings to preferences
-    await _prefs.setStringList('notes', noteJsonList);
+  // Adds a new note
+  Future<void> addNote(String content) async {
+    final notes = await getNotes().first;
+    final newNote = NoteModel.generate(content);
+    notes.add(newNote);
+    await _saveNotes(notes);
   }
 
-  Future<List<NoteModel>> getNoteList() async {
-  // Retrieve list of JSON strings from preferences
-  final noteJsonList = _prefs.getStringList('notes',defaultValue: []);
-  // Convert list of JSON strings back to list of NoteModel objects
-  return noteJsonList.map((jsonString) {
-    return NoteModel.fromJson(json.decode(jsonString.toString()));
-  }).toList();
-}
-
-  Future<List<NoteModel>> getNotes(List<NoteModel> notes) async {
-    final keys = _prefs.getKeys();
-    for (String key in keys.getValue()) {
-      final noteContent = _prefs.getString(key, defaultValue: '');
-      notes.add(NoteModel(id: key, content: noteContent.toString()));
-    }
-    return notes;
+  // Removes a note
+  Future<void> removeNote(String noteId) async {
+    final notes = await getNotes().first;
+    notes.removeWhere((note) => note.id == noteId);
+    await _saveNotes(notes);
   }
 
-  Future<void> deleteNotes(String id,List<NoteModel> notes) async {
-    notes.removeWhere((note) => note.id == id);
-    await _prefs.remove(id);
+  // Helper function to save notes to SharedPreferences
+  // Helper function to save notes to SharedPreferences
+  Future<void> _saveNotes(List<NoteModel> notes) async {
+    final noteJsonList = notes.map((note) => note.toJson()).toList();
+    final noteStringList =
+        noteJsonList.map((noteJson) => json.encode(noteJson)).toList();
+    await _preferences.setStringList(_notesKey, noteStringList);
   }
 }
