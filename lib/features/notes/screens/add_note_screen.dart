@@ -25,7 +25,6 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final notesProvider = locator<NotesProvider>();
     return Scaffold(
       appBar: AppBar(
         title: const Text("New Note"),

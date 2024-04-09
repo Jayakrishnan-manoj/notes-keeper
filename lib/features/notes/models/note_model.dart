@@ -21,11 +21,4 @@ class NoteModel with _$NoteModel {
   factory NoteModel.fromJson(Map<String, dynamic> json) =>
       _$NoteModelFromJson(json);
 
-  static NoteModel empty() {
-    return const NoteModel(
-      id: null, // Assuming null represents an unloaded state for id
-      content:
-          '', // Assuming an empty string represents an unloaded state for content
-    );
-  }
 }

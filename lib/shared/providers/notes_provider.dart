@@ -18,7 +18,6 @@ class NotesProvider extends ChangeNotifier {
       _notes = await _service.getNotes().first;
       notifyListeners();
     } catch (e) {
-      // Handle error
       throw e.toString();
     }
   }
@@ -27,9 +26,8 @@ class NotesProvider extends ChangeNotifier {
     try {
       await _service.addNote(content);
       notifyListeners();
-      await _loadNotes(); // Refresh the list of notes after adding
+      await _loadNotes();
     } catch (e) {
-      // Handle error
       throw e.toString();
     }
   }
@@ -37,9 +35,8 @@ class NotesProvider extends ChangeNotifier {
   Future<void> editNote(String noteId, String content) async {
     try {
       await _service.editNote(noteId, content);
-      await _loadNotes(); // Refresh the list of notes after editing
+      await _loadNotes();
     } catch (e) {
-      // Handle error
       throw e.toString();
     }
   }
@@ -47,9 +44,8 @@ class NotesProvider extends ChangeNotifier {
   Future<void> removeNote(String noteId) async {
     try {
       await _service.removeNote(noteId);
-      await _loadNotes(); // Refresh the list of notes after removing
+      await _loadNotes();
     } catch (e) {
-      // Handle error
       throw e.toString();
     }
   }

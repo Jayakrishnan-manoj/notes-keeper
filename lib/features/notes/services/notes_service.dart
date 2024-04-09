@@ -11,7 +11,6 @@ class NoteService {
 
   NoteService(this._preferences);
 
-  // Retrieves all notes from SharedPreferences
   Stream<List<NoteModel>> getNotes() {
     try {
       final notesStream =
@@ -24,7 +23,7 @@ class NoteService {
     }
   }
 
-  // Adds a new note
+
   Future<void> addNote(String content) async {
     try {
       final notes = await getNotes().first;
@@ -51,7 +50,6 @@ class NoteService {
     }
   }
 
-  // Removes a note
   Future<void> removeNote(String noteId) async {
     try {
       final notes = await getNotes().first;
