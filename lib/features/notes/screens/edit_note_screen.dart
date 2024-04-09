@@ -1,4 +1,5 @@
 import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:notes_keeper/features/notes/models/note_model.dart';
 import 'package:notes_keeper/shared/utils/helpers.dart';
@@ -74,14 +75,15 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
               ),
               onPressed: () {
                 try {
-                  locator<NotesProvider>()
-                      .editNote(widget.note.id!, _editNoteController.text)
-                      .whenComplete(
-                        () =>
-                            showSnackbar(context, "Note Edited!", Colors.green),
-                      );
-
-                  Navigator.of(context).pop();
+                  _editNoteController.text.isNotEmpty
+                      ? locator<NotesProvider>()
+                          .editNote(widget.note.id!, _editNoteController.text)
+                          .whenComplete(() {
+                          showSnackbar(context, "Note Edited!", Colors.green);
+                          context.router.pop();
+                        })
+                      : showSnackbar(
+                          context, "Note cannot be empty", Colors.red);
                 } catch (e) {
                   showSnackbar(context, "Editing Failed", Colors.red);
                 }

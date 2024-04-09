@@ -19,16 +19,21 @@ class NotesTile extends StatelessWidget {
       collapsedIconColor: kTextColor,
       iconColor: kPrimaryColor,
       title: Text(
-        note.content.toString(),
+        note.content.split("\n")[0].toString(),
         style: const TextStyle(
             fontWeight: FontWeight.bold, overflow: TextOverflow.ellipsis),
       ),
       initiallyExpanded: true,
       children: [
-        Text(
-          note.content.toString(),
-          textAlign: TextAlign.center,
-          style: const TextStyle(color: kTextColor),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+          child: Align(
+            alignment: Alignment.bottomLeft,
+            child: Text(
+              note.content.toString(),
+              style: const TextStyle(color: kTextColor),
+            ),
+          ),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,

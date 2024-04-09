@@ -45,7 +45,7 @@ class NotesListScreen extends StatelessWidget {
             final notes = provider.notes; 
             if (notes.isEmpty) {
               return const Center(
-                child: Text("No notes added"),
+                child: Text("Tap on the button to start saving notes!"),
               );
             }
             return ListView.builder(

@@ -1,4 +1,5 @@
 import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:notes_keeper/shared/providers/notes_provider.dart';
 import 'package:notes_keeper/shared/utils/helpers.dart';
@@ -67,14 +68,15 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
               ),
               onPressed: () {
                 try {
-                  locator<NotesProvider>()
-                      .addNote(_noteController.text)
-                      .whenComplete(
-                        () =>
-                            showSnackbar(context, "Note Added!", Colors.green),
-                      );
-
-                  Navigator.of(context).pop();
+                  _noteController.text.isNotEmpty
+                      ? locator<NotesProvider>()
+                          .addNote(_noteController.text)
+                          .whenComplete(() {
+                          showSnackbar(context, "Note Added!", Colors.green);
+                          context.router.pop();
+                        })
+                      : showSnackbar(
+                          context, "Note cannot be empty", Colors.red);
                 } catch (e) {
                   showSnackbar(context, "Could not add Note", Colors.red);
                 }
